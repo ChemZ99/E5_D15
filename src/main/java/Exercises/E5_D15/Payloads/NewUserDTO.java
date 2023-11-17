@@ -3,9 +3,6 @@ package Exercises.E5_D15.Payloads;
 import jakarta.validation.constraints.*;
 
 public record NewUserDTO(
-        @NotEmpty(message = "username is required")
-        @Size(min = 3, max=50, message = "username must have a length beetween 3 and 50")
-        String username,
         @NotEmpty(message = "name is required")
         @Size(min = 3, max=50, message = "name must have a length beetween 3 and 50")
         String name,

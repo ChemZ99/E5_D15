@@ -15,9 +15,8 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue
-    private long id;
     @Column
-    private String username;
+    private long id;
     @Column
     private String name;
     @Column
@@ -28,6 +27,7 @@ public class User implements UserDetails {
     private String avatarUrl;
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column
     private Role role;
 
     @Override

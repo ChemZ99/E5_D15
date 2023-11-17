@@ -29,15 +29,11 @@ public class AuthService {
     private UsersRepository usersRepository;
 
     public String authenticateUser(UserLoginDTO body){
-        // 1. Verifichiamo che l'email dell'utente sia nel db
         User user = usersService.findByEmail(body.email());
 
-        // 2. In caso affermativo, verifichiamo se la password corrisponde a quella trovata nel db
         if(bcrypt.matches(body.password(),user.getPassword())) {
-            // 3. Se le credenziali sono OK --> Genero un JWT e lo restituisco
             return jwtTools.createToken(user);
         } else {
-            // 4. Se le credenziali NON sono OK --> 401
             throw new UnauthorizedException("Credenziali non valide!");
         }
     }

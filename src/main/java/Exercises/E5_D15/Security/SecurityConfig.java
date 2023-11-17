@@ -25,16 +25,13 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disabilitiamo alcuni comportamenti di default
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
         http.formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable());
 
-        // Aggiugo filtri custom
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(exceptionsHandlerFilter, JWTAuthFilter.class);
 
-        // Aggiungo/rimuovo protezione sui singoli endpoint in maniera che venga/non venga richiesta l'autenticazione per accedervi
         http.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
         return http.build();
     }
@@ -42,7 +39,5 @@ public class SecurityConfig {
     @Bean
     PasswordEncoder getEncoder(){
         return new BCryptPasswordEncoder(11);
-        // 11 è il numero di ROUNDS, ovvero quante volte viene eseguito l'algoritmo. In parole povere ci serve
-        // per settare la velocità di esecuzione di bcrypt (+ è alto il numero, + lento l'algoritmo, + sicure sarnno le pw)
     }
 }

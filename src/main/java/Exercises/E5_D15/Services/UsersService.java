@@ -29,7 +29,6 @@ public class UsersService {
         newUser.setName(body.name());
         newUser.setSurname(body.surname());
         newUser.setEmail(body.email());
-        newUser.setUsername(body.username());
         usersRepository.save(newUser);
         return newUser;
     }
@@ -53,6 +52,8 @@ public class UsersService {
         User found = this.findById(id);
         found.setSurname(body.getSurname());
         found.setName(body.getName());
+        found.setEmail(body.getEmail());
+        found.setPassword(body.getPassword());
         return usersRepository.save(found);
     }
 
