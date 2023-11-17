@@ -21,7 +21,7 @@ public class EventsController {
     private EventsService eventsService;
 
     @GetMapping("")
-    @PreAuthorize("hasAnyAuthority('ORGANIZER','USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public Page<Event> getDevices(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "10") int size,
                                   @RequestParam(defaultValue = "id") String orderBy) {
@@ -30,7 +30,7 @@ public class EventsController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Event saveDevice(@RequestBody @Validated NewEventDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
@@ -44,20 +44,20 @@ public class EventsController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyAuthority('ORGANIZER','USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public Event findEventById(@PathVariable long id) {
         return eventsService.findById(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Event findEventByIdAndUpdate(@PathVariable long id, @RequestBody Event body) {
         return eventsService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findEventByIdAndDelete(@PathVariable long id) {
         eventsService.findByIdAndDelete(id);
     }

@@ -26,7 +26,7 @@ public class UsersController {
     private EventsService eventsService;
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getUser(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
                               @RequestParam(defaultValue = "id") String orderBy){
@@ -35,7 +35,7 @@ public class UsersController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('ORGANIZER','USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public User saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation){
         if(validation.hasErrors()){
             throw new BadRequestException(validation.getAllErrors());
@@ -49,20 +49,20 @@ public class UsersController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyAuthority('ORGANIZER','USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public User findUserById(@PathVariable long id){
         return usersService.findById(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User findUserByIdAndUpdate(@PathVariable long id, @RequestBody User body){
         return usersService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ORGANIZER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findUserByIdAndDelete(@PathVariable long id){
         usersService.findByIdAndDelete(id);
     }
