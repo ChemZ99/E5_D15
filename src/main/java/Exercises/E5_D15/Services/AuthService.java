@@ -39,13 +39,11 @@ public class AuthService {
     }
     public User registerUser(NewUserDTO body) throws IOException {
 
-        // verifico se l'email è già utilizzata
         usersRepository.findByEmail(body.email()).ifPresent( user -> {
             throw new BadRequestException("L'email " + user.getEmail() + " è già utilizzata!");
         });
 
         User newUser = new User();
-        newUser.setAvatarUrl("http://ui-avatars.com/api/?name="+body.name() + "+" + body.surname());
         newUser.setName(body.name());
         newUser.setSurname(body.surname());
         newUser.setPassword(bcrypt.encode(body.password())); // $2a$11$wQyZ17wrGu8AZeb2GCTcR.QOotbcVd9JwQnnCeqONWWP3wRi60tAO
